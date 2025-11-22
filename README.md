@@ -13,11 +13,8 @@ Each environment contains three code variants:
 
 ---
 
-## 🧠 Spiking DSQN Result
-![Spiking Result](results/spiking.gif)
-
-## ⚙️ Non-Spiking DQN Result
-![Non-Spiking Result](results/nonspiking.gif)
+![Spiking](results/spiking_smooth.gif)
+![Non-Spiking](results/nonspiking_smooth.gif)
 
 ## 🧩 Dependencies
 
