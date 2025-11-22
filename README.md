@@ -13,6 +13,12 @@ Each environment contains three code variants:
 
 ---
 
+## 🧠 Spiking DSQN Result
+! [Spiking Result](results/spiking.gif)
+
+## ⚙️ Non-Spiking DQN Result
+! [Non-Spiking Result](results/nonspiking.gif)
+
 ## 🧩 Dependencies
 
 Before running the code, please install the following dependencies:
@@ -20,8 +26,4 @@ Before running the code, please install the following dependencies:
 ```bash
 pip install highway_env snntorch gymnasium
 
-##🧠 Spiking DSQN Result
-![Spiking Result](results/spiking.gif)
 
-##⚙️ Non-Spiking DQN Result
-![Non-Spiking Result](results/nonspiking.gif)
