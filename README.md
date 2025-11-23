@@ -11,6 +11,7 @@ Each environment contains three code variants:
 - **SSA** — Spiking DQN with *Standard Spiking Attention*.  
 - **TTSA** — Spiking DQN with *Temporal-Aware Ternary Spiking Attention* (proposed).
 
+Hi there
 ---
 
 ![Spiking](results/spiking_smooth.gif)
