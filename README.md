@@ -40,6 +40,7 @@ Both scenarios involve driving interactions that require fast temporal reasoning
 
 # Repository Structure
 
+```text
 MM-DQN/
 │
 ├── Submitted_Code/
@@ -60,6 +61,7 @@ MM-DQN/
 │   └── ...
 │
 └── README.md
+```
 
 ---
 
