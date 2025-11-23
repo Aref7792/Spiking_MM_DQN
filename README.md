@@ -15,6 +15,7 @@ The framework introduces a multi-modal spiking deep Q-network that integrates BE
 - Environments
 - Architecture Variants
 - Installation & Requirements
+- Version Specifications
 - Torch & CUDA Versions
 - How to Run
 - Results
@@ -27,14 +28,14 @@ The framework introduces a multi-modal spiking deep Q-network that integrates BE
 
 This repository includes two versions of the implementation:
 
-1. Submitted Code — the exact version included during the conference submission (located in `/Submitted_Code`).  
-2. Modular Implementation — a cleaner, extensible, and maintainable version intended as the long-term official release.
+1. **Submitted Code** — the exact version included during the conference submission (located in `/Submitted_Code`).  
+2. **Modular Implementation** — a cleaner, extensible, and maintainable version intended as the long-term official release.
 
 The project supports two gymnasium-based autonomous driving environments:
-- Multi-lane Highway
-- Roundabout Navigation
+- **Multi-lane Highway**
+- **Roundabout Navigation**
 
-Both scenarios involve driving interactions that require fast temporal reasoning and multimodal fusion.
+Both scenarios involve multi-agent interactions requiring fast temporal reasoning and multi-modal fusion.
 
 ---
 
@@ -67,75 +68,122 @@ MM-DQN/
 
 # Environments
 
-1. Highway-v0 — A multi-lane, multi-agent driving environment, requiring rapid decision-making and safe lane transitions.
+### **1. Highway-v0**
+A multi-lane, multi-agent driving environment requiring rapid decision-making and safe lane changes.
 
-2. Roundabout-v0 — A more complex scenario requiring negotiation with multiple agents while navigating circular traffic flows.
+### **2. Roundabout-v0**
+A complex navigation scenario requiring negotiation with multiple agents in circular traffic flow.
 
-Both are based on the `highway_env` library.
+Both environments are part of the `highway_env` package.
 
 ---
 
 # Architecture Variants
 
-Three architectures are provided for each environment:
+Three architectures are provided:
 
-1. MM-DQN (Non-Spiking Baseline) — A conventional deep Q-network operating on BEV and LiDAR image observations.
+### **1. MM-DQN (Non-Spiking Baseline)**
+Standard deep Q-network working on BEV and LiDAR pseudo-image inputs.
 
-2. SSA — Standard Spiking Attention — A spiking extension using binary spikes and standard spike-based attention.
+### **2. SSA — Standard Spiking Attention**
+A binary spiking model with standard spike-based attention.
 
-3. TTSA — Temporal-Aware Ternary Spiking Attention (Proposed) — Provides temporal-aware ternary spikes, cross-modal spiking attention, improved reward performance, and higher representational capacity.
+### **3. TTSA — Temporal-Aware Ternary Spiking Attention (Proposed)**
+Main contribution of the paper, featuring:
+- Temporal-aware ternary spikes  
+- Improved spiking cross-attention  
+- Higher representational capacity  
+- More stable training and improved reward  
 
 ---
 
 # Installation & Requirements
 
-Python Version: 3.9 – 3.11
+### **Python Version**
+Python **3.9 – 3.11**
 
-Install Core Dependencies:
+### **Install Dependencies**
+
+```bash
 pip install highway_env gymnasium snntorch numpy torch einops msgpack msgpack_numpy tensorboard
+```
 
-Optional:
+### **Optional (Recommended)**
+
+```bash
 pip install opencv-python matplotlib
+```
+
+---
+
+# Version Specifications
+
+The repository has been tested using the following versions:
+
+| Package        | Version |
+|----------------|---------|
+| **torch**      | 2.7.1   |
+| **CUDA Toolkit** | 12.8 |
+| **numpy**      | 2.2.6   |
+| **snntorch**   | 0.9.4   |
+| **gymnasium**  | 1.2.0   |
+| **highway-env** | 1.10.1 |
+| **einops**     | 0.8.1   |
+| **tensorboard** | 2.20.0 |
 
 ---
 
 # Torch & CUDA Versions
 
-The repository was tested with:
+The repository also supports:
 
-torch: 2.7.1
-CUDA Toolkit: 12.8
-numpy: 2.2.6
-snntorch: 0.9.4
-gymnasium: 1.2.0
-highway-env: 1.10.1
-einops: 0.8.1
-tensorboard: 2.20.0
+| Component      | Version |
+|----------------|---------|
+| PyTorch        | 2.1.x or 2.2.x |
+| CUDA Toolkit   | 11.8 or 12.1 |
+| cuDNN          | 8.x |
+| TorchVision    | 0.16.x |
 
+### Install PyTorch (CUDA 11.8):
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+### CPU-only:
+
+```bash
+pip install torch torchvision torchaudio
+```
 
 ---
 
 # How to Run
 
-python train_test.py --seeds <number_of_seeds> --mode <nonspiking | SSA | TTSA> --scenario <highway-v0 | roundabout-v0>
+```bash
+python train_test.py     --seeds <number_of_seeds>     --mode <nonspiking | SSA | TTSA>     --scenario <highway-v0 | roundabout-v0>
+```
 
-Examples:
-python train_test.py --seeds 5 --mode TTSA --scenario highway-v0  
-python train_test.py --seeds 3 --mode SSA --scenario roundabout-v0  
+### Examples
+
+```bash
+python train_test.py --seeds 5 --mode TTSA --scenario highway-v0
+python train_test.py --seeds 3 --mode SSA --scenario roundabout-v0
+```
 
 ---
 
 # Results
 
-Highway Scenario:  
-results/highway/nonspiking.gif  
-results/highway/ssa.gif  
-results/highway/ttsa.gif  
+## **Highway Scenario**
+- results/highway/nonspiking.gif  
+- results/highway/ssa.gif  
+- results/highway/ttsa.gif  
 
-Roundabout Scenario:  
-results/roundabout/nonspiking.gif  
-results/roundabout/ssa.gif  
-results/roundabout/ttsa.gif  
+## **Roundabout Scenario**
+- results/roundabout/nonspiking.gif  
+- results/roundabout/ssa.gif  
+- results/roundabout/ttsa.gif  
 
 ---
 
@@ -145,5 +193,4 @@ results/roundabout/ttsa.gif
 ---
 
 # License
-
 
