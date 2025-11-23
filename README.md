@@ -152,12 +152,12 @@ python train_test.py --seeds 3 --mode SSA --scenario roundabout-v0
 # Results
 
 ## **Highway Scenario**
-- results/Highway/nonspiking.gif  
+- results/Highway/non_spiking.gif  
 - results/Highway/SSA.gif  
 - results/Highway/TTSA.gif  
 
 ## **Roundabout Scenario**
-- results/Roundabout/nonspiking.gif  
+- results/Roundabout/non_spiking.gif  
 - results/Roundabout/SSA.gif  
 - results/Roundabout/TTSA.gif  
 
