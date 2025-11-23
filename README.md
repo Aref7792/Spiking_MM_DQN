@@ -123,7 +123,7 @@ The repository has been tested using the following versions:
 | Package        | Version |
 |----------------|---------|
 | **torch**      | 2.7.1   |
-| **CUDA Toolkit** | 12.8 |
+| **CUDA** | 12.8 |
 | **numpy**      | 2.2.6   |
 | **snntorch**   | 0.9.4   |
 | **gymnasium**  | 1.2.0   |
