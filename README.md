@@ -1,6 +1,7 @@
 # Spiking Multi-Modal Deep Q-Network (MM-DQN)
 
 This repository provides the official implementation of the **New Spiking Architecture for Multi-Modal Decision-Making in Autonomous Vehicles** paper submitted to The 25th International Conference on Autonomous Agents and Multi-Agent Systems. 
+
 You can find the code attached to the paper during submission in the "Submitted_Code" folder.  
 Two distinct environments are included:
 
