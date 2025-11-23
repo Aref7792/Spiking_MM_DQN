@@ -21,6 +21,20 @@ pip install highway_env snntorch gymnasium
 ```
 ---
 
+# Modular Implementation
+
+A more professional version of the code is provided to be released as the formal repository of the paper. 
+
+To run the code please run: 
+
+python train_test.py --seeds # of seeds --mode nonspiking, SSA, or TTSA --scenario highway-v0, roundabout-v0
+
+# Results
+
+The renderings of the best trained model on each enviroment is as follows: 
+
+## Highway Scenario
+
 ![Spiking](results/spiking_smooth.gif)
 ![Non-Spiking](results/nonspiking_smooth.gif)
 
