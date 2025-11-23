@@ -1,6 +1,7 @@
 # Spiking Multi-Modal Deep Q-Network (MM-DQN)
 
-This repository provides the implementation of the **Multi-Modal Deep Q-Network (MM-DQN)** and its **spiking variants** designed for autonomous driving scenarios using the *Highway-Env* simulator.  
+This repository provides the official implementation of the **New Spiking Architecture for Multi-Modal Decision-Making in Autonomous Vehicles** paper submitted to The 25th International Conference on Autonomous Agents and Multi-Agent Systems. 
+You can find the code attached to the paper during submission in the "Submitted_Code" folder.  
 Two distinct environments are included:
 
 - **Highway** — Straight multi-lane highway driving.  
@@ -11,7 +12,9 @@ Each environment contains three code variants:
 - **SSA** — Spiking DQN with *Standard Spiking Attention*.  
 - **TTSA** — Spiking DQN with *Temporal-Aware Ternary Spiking Attention* (proposed).
 
-Hi there
+Before running the code, please install the following dependencies: 
+```bash
+pip install highway_env snntorch gymnasium
 ---
 
 ![Spiking](results/spiking_smooth.gif)
