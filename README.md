@@ -72,7 +72,7 @@ MM-DQN/
 A multi-lane, multi-agent driving environment requiring rapid decision-making and safe lane changes.
 
 ### **2. Roundabout-v0**
-A complex navigation scenario requiring negotiation with multiple agents in circular traffic flow.
+A more complex navigation scenario with multiple vehicles in circular traffic flow.
 
 Both environments are part of the `highway_env` package.
 
