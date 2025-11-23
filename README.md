@@ -15,6 +15,8 @@ Each environment contains three code variants:
 Before running the code, please install the following dependencies: 
 ```bash
 pip install highway_env snntorch gymnasium
+
+```
 ---
 
 ![Spiking](results/spiking_smooth.gif)
