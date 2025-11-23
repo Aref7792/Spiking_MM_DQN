@@ -35,8 +35,14 @@ The renderings of the best trained model on each enviroment is as follows:
 
 ## Highway Scenario
 
-![Spiking](results/spiking_smooth.gif)
-![Non-Spiking](results/nonspiking_smooth.gif)
+### Non-Spiking
+![Spiking](results/nonspiking.gif)
+---
+### Spiking with SSA
+![Non-Spiking](results/highway/ssa.gif)
+---
+### Spiking with TTSA (our proposed cross attention mechanism)
+![Non-Spiking](results/highway/ttsa.gif)
 
 ## 🧩 Dependencies
 
