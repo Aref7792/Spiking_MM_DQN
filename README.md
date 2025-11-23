@@ -131,30 +131,6 @@ The repository has been tested using the following versions:
 | **einops**     | 0.8.1   |
 | **tensorboard** | 2.20.0 |
 
----
-
-# Torch & CUDA Versions
-
-The repository also supports:
-
-| Component      | Version |
-|----------------|---------|
-| PyTorch        | 2.1.x or 2.2.x |
-| CUDA Toolkit   | 11.8 or 12.1 |
-| cuDNN          | 8.x |
-| TorchVision    | 0.16.x |
-
-### Install PyTorch (CUDA 11.8):
-
-```bash
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
-
-### CPU-only:
-
-```bash
-pip install torch torchvision torchaudio
-```
 
 ---
 
