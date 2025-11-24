@@ -90,10 +90,9 @@ A binary spiking model with standard spike-based attention.
 
 ### **3. TTSA — Temporal-Aware Ternary Spiking Attention (Proposed)**
 Main contribution of the paper, featuring:
-- Temporal-aware ternary spikes  
-- Improved spiking cross-attention  
-- Higher representational capacity  
-- More stable training and improved reward  
+- An end-to-end multi-modal Q-learning architecture  
+- A temporal-aware ternary spiking attention mechanism 
+- The first vision-based multi-modal spiking reinforcement learning framework 
 
 ---
 
@@ -154,23 +153,27 @@ python train_test.py --seeds 3 --mode SSA --scenario roundabout-v0
 ## **Highway Scenario**
 
 # Nonspiking
-[Highway Non-Spiking](results/Highway/nonspiking.gif)
+![Highway Non-Spiking](results/Highway/nonspiking.gif)
 
+--
 # Spiking with SSA
-[Highway SSA](results/Highway/SSA.gif) 
+![Highway SSA](results/Highway/SSA.gif) 
 
+--
 # Spiking with TTSA
-[Highway TTSA](results/Highway/TTSA.gif)
+![Highway TTSA](results/Highway/TTSA.gif)
 
 ## **Roundabout Scenario**
 # Nonspiking
-[Highway Non-Spiking](results/Roundabout/non_spiking.gif)
+![Highway Non-Spiking](results/Roundabout/non_spiking.gif)
 
+--
 # Spiking with SSA
-[Highway SSA](results/Roundabout/SSA.gif) 
+![Highway SSA](results/Roundabout/SSA.gif) 
 
+--
 # Spiking with TTSA
-[Highway TTSA](results/Roundabout/TTSA.gif) 
+![Highway TTSA](results/Roundabout/TTSA.gif) 
 
 ---
 
