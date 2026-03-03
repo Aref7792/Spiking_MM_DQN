@@ -3,7 +3,6 @@
 This repository contains the official implementation of the paper:
 
 **“A New Spiking Architecture for Multi-Modal Decision-Making in Autonomous Vehicles”**  
-Submitted to **AAMAS 2026 (The 25th International Conference on Autonomous Agents and Multi-Agent Systems)**.
 
 The framework introduces a multi-modal spiking deep Q-network that integrates BEV camera representations and LiDAR-derived occupancy maps using novel spiking cross-attention mechanisms.
 
