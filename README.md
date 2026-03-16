@@ -124,4 +124,19 @@ The Highway-Env experiments use a multi-modal DQN architecture with bird’s-eye
 | Evaluation episodes | — | 20–50 |
 
 
+### Spiking-Specific Hyperparameters
+
+| Parameter | Setting | Value / Description |
+|-----------|---------|---------------------|
+| Neuron type | — | Binary LIF and ternary LIF neurons (asymmetric thresholds) |
+| Usage across modules | — | Binary LIF used in feature extraction and decision layers; ternary LIF used in cross-attention fusion |
+| Membrane time constant | tau_m | 2 |
+| Positive spike threshold | Vth⁺ | 1.0 |
+| Negative spike threshold | Vth⁻ | −4 |
+| Reset mechanism | Vreset | Subtractive reset (V ← V − Vth±) |
+| Output spike representation | — | Binary {0, +1} and ternary {−1, 0, +1} |
+| Surrogate gradient type | — | Arctangent |
+| Simulation time window | Ts | 5 time steps |
+
+
 
