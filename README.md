@@ -1,37 +1,39 @@
-Multi-Modal DQN for CARLA (Vanilla, SSA, TTSA)
+Multi-Modal Deep Q-Learning for Autonomous Driving in CARLA
+(MM-DQN, SSA-DQN, TTSA-DQN)
 
-This repository provides three Deep Q-Learning pipelines for multi-modal autonomous driving in CARLA 0.9.13 using bird’s-eye-view (BEV) and radar observations:
+Overview
+This section provides Deep Q-Learning pipelines for multi-modal autonomous driving using CARLA 0.9.13. The implementations leverage bird’s-eye-view (BEV) and radar/Lidar observations through the gym-carla interface and operate under a discrete control formulation. The repository includes:
 
-1. Vanilla Multi-Modal DQN
-2. SSA-based Spiking Multi-Modal DQN
-3. TTSA-based Spiking Multi-Modal DQN (Ours)
+1. Multi-Modal DQN
+2. SSA-Based Spiking Multi-Modal DQN
+3. TTSA-Based Spiking Multi-Modal DQN (proposed approach)
 
-All models use the gym-carla wrapper with a discrete control space and are tested on Town03.
+All methods are validated on CARLA Town03 with consistent observation and action configurations to ensure fair comparison.
 
 ---
 
 Repository Structure
 
 .
-├── dqn_carla.py
-├── ssa_dqn_carla.py
-├── ttsa_dqn_carla.py
+├── MM_DQN.py
+├── SSA_DQN.py
+├── TTSA_DQN.py
 ├── test.py
 ├── models_DQN/
 ├── models_SSA_DQN/
 ├── models_TTSA_DQN/
-├── runs/
+├── runs
 └── README.txt
 
 ---
 
 System Requirements
 
-OS: Ubuntu 24.04
-Python: 3.8
-CARLA: 0.9.13
-GPU: NVIDIA GPU recommended
-Conda: recommended for environment management
+Operating System: Ubuntu 24.04
+Python Version: 3.8
+Simulator: CARLA 0.9.13
+GPU: NVIDIA GPU recommended for spiking variants
+Environment Manager: Conda (recommended)
 
 ---
 
@@ -53,45 +55,27 @@ cd <your-repository-folder>
 
 3. Install Dependencies
 
-If using requirements:
+Using requirements file:
 
 pip install -r requirements.txt
 
-Or manually:
-
-pip install torch torchvision torchaudio
-pip install numpy gym tqdm tensorboard einops msgpack msgpack-numpy tyro snntorch pygame scikit-image
-
-If packaged:
-
-pip install -e .
-
----
-
-Install gym-carla
-
-git clone https://github.com/cjy1992/gym-carla.git
-cd gym-carla
-pip install -r requirements.txt
-pip install -e .
-cd ..
 
 ---
 
 CARLA 0.9.13 Setup
 
-Download and extract CARLA 0.9.13.
+Download and extract CARLA 0.9.13 from the official release.
 
 Add the CARLA Python API to your environment:
 
-export PYTHONPATH=$PYTHONPATH:/path/to/CARLA_0.9.13/PythonAPI/carla/dist/carla-0.9.13-py3.8-linux-x86_64.egg
+export PYTHONPATH=$PYTHONPATH:/path/to/CARLA_0.9.13/PythonAPI/carla/dist/carla-0.9.13-py3.7-linux-x86_64.egg
 
 (Optional) Make permanent:
 
 echo 'export PYTHONPATH=$PYTHONPATH:/path/to/CARLA_0.9.13/PythonAPI/carla/dist/carla-0.9.13-py3.8-linux-x86_64.egg' >> ~/.bashrc
 source ~/.bashrc
 
-Note: the .egg filename may differ slightly. Check:
+Note: The egg filename may vary slightly depending on your installation. Verify inside:
 
 /path/to/CARLA_0.9.13/PythonAPI/carla/dist/
 
@@ -104,12 +88,12 @@ Windowed Mode:
 cd /path/to/CARLA_0.9.13
 ./CarlaUE4.sh -windowed -carla-port=2000
 
-Headless Mode (Recommended):
+Headless Mode (Recommended for Training):
 
 cd /path/to/CARLA_0.9.13
 SDL_VIDEODRIVER=dummy ./CarlaUE4.sh -RenderOffScreen -nosound -carla-port=2000
 
-Alternative:
+Alternative headless configuration:
 
 DISPLAY= ./CarlaUE4.sh -opengl -carla-port=2000
 
@@ -117,37 +101,27 @@ DISPLAY= ./CarlaUE4.sh -opengl -carla-port=2000
 
 Usage
 
-Make sure CARLA is already running before training.
+Ensure the CARLA server is running prior to launching training.
 
----
+Vanilla Multi-Modal DQN:
 
-1. Vanilla Multi-Modal DQN
+python MM_DQN.py --render False --enable-pygame False --port 2000
 
-python dqn_carla.py --render False --enable-pygame False --port 2000
+SSA-Based Spiking DQN:
 
----
+python SSA_DQN.py --render False --enable-pygame False --port 2000
 
-2. SSA-Based Spiking DQN
+TTSA-Based Spiking DQN:
 
-python ssa_dqn_carla.py --render False --enable-pygame False --port 2000
+python TTSA_DQN.py --render False --enable-pygame False --port 2000
 
----
 
-3. TTSA-Based Spiking DQN (Ours)
-
-python ttsa_dqn_carla.py --render False --enable-pygame False --port 2000
-
----
-
-Headless Execution (Recommended)
-
-SDL_VIDEODRIVER=dummy python dqn_carla.py --render False --enable-pygame False --port 2000
 
 ---
 
 TensorBoard Logging
 
-Logs are saved in:
+Training logs are stored in:
 
 runs/
 
@@ -155,13 +129,13 @@ Launch TensorBoard:
 
 tensorboard --logdir runs
 
-Metrics include:
+Typical metrics include:
 
-episodic return
-episodic length
-TD loss
-epsilon schedule
-training speed
+* Episodic return
+* Episodic length
+* TD loss
+* Epsilon schedule
+* Training throughput
 
 ---
 
@@ -173,7 +147,7 @@ models_DQN/
 models_SSA_DQN/
 models_TTSA_DQN/
 
-Example:
+Example filenames:
 
 <exp_name>__seed0__5000.pth
 <exp_name>__seed0__10000.pth
@@ -188,47 +162,34 @@ python test.py
 
 This verifies:
 
-CARLA connection
-observation format
-action execution
+* CARLA connectivity
+* Observation pipeline
+* Action execution
 
 ---
 
 Common Issues
 
-1. gym_carla not found
+1. gym_carla not found:
 
 pip install -e gym-carla
 
----
-
-2. CARLA import error
-
-Check:
+2. CARLA import error:
 
 echo $PYTHONPATH
 
----
-
-3. Address already in use
-
-Use another port:
+3. Address already in use:
 
 ./CarlaUE4.sh -carla-port=2001
-
-Then:
-
 python dqn_carla.py --port 2001
 
----
-
-4. Slow training
+4. Slow training performance:
 
 Reduce:
 
-number_of_vehicles
-display_size
-render_panels
+* number_of_vehicles
+* display_size
+* render_panels
 
 Keep:
 
@@ -238,16 +199,12 @@ Keep:
 
 Recommended Workflow
 
-For stable experimentation:
+For reproducible experimentation:
 
-1. Run Vanilla DQN first
+1. Run Vanilla DQN to verify environment configuration
 2. Run SSA-DQN
 3. Run TTSA-DQN
 
-This isolates environment issues from spiking-attention implementation issues.
+This sequence isolates environment-level issues from model-level implementation effects.
 
----
 
-Citation
-
-If you use this repository in academic work, please cite the associated paper or implementation.
