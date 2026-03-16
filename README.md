@@ -1,4 +1,3 @@
-
 # Multi-Modal Deep Q-Learning for Autonomous Driving in CARLA  
 **(MM-DQN · SSA-DQN · TTSA-DQN)**
 
@@ -23,6 +22,7 @@ All methods are evaluated on **CARLA Town03** under identical observation and ac
 
 ## Repository Structure
 
+```text
 .
 ├── MM_DQN.py              # Multi-Modal DQN baseline
 ├── SSA_DQN.py             # SSA-based spiking DQN
@@ -33,6 +33,7 @@ All methods are evaluated on **CARLA Town03** under identical observation and ac
 ├── models_TTSA_DQN/       # Saved TTSA-DQN checkpoints
 ├── runs/                  # TensorBoard logs
 └── README.md
+```
 
 ---
 
@@ -50,21 +51,23 @@ All methods are evaluated on **CARLA Town03** under identical observation and ac
 
 ### 1. Create Conda Environment
 
-conda create -n carla_rl python=3.8 -y  
-conda activate carla_rl  
-
----
+```bash
+conda create -n carla_rl python=3.8 -y
+conda activate carla_rl
+```
 
 ### 2. Clone Repository
 
-git clone <your-repository-url>  
-cd <your-repository-folder>  
-
----
+```bash
+git clone <your-repository-url>
+cd <your-repository-folder>
+```
 
 ### 3. Install Dependencies
 
-pip install -r requirements.txt  
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
@@ -74,14 +77,16 @@ Download and extract CARLA 0.9.13 from the official release.
 
 Add the CARLA Python API to your environment:
 
-export PYTHONPATH=$PYTHONPATH:/path/to/CARLA_0.9.13/PythonAPI/carla/dist/carla-0.9.13-py3.8-linux-x86_64.egg  
+```bash
+export PYTHONPATH=$PYTHONPATH:/path/to/CARLA_0.9.13/PythonAPI/carla/dist/carla-0.9.13-py3.8-linux-x86_64.egg
+```
 
 (Optional — make permanent)
 
-echo 'export PYTHONPATH=$PYTHONPATH:/path/to/CARLA_0.9.13/PythonAPI/carla/dist/carla-0.9.13-py3.8-linux-x86_64.egg' >> ~/.bashrc  
-source ~/.bashrc  
-
-Note: The .egg filename may differ slightly depending on your installation.
+```bash
+echo 'export PYTHONPATH=$PYTHONPATH:/path/to/CARLA_0.9.13/PythonAPI/carla/dist/carla-0.9.13-py3.8-linux-x86_64.egg' >> ~/.bashrc
+source ~/.bashrc
+```
 
 ---
 
@@ -89,17 +94,23 @@ Note: The .egg filename may differ slightly depending on your installation.
 
 ### Windowed Mode
 
-cd /path/to/CARLA_0.9.13  
-./CarlaUE4.sh -windowed -carla-port=2000  
+```bash
+cd /path/to/CARLA_0.9.13
+./CarlaUE4.sh -windowed -carla-port=2000
+```
 
 ### Headless Mode (Recommended for Training)
 
-cd /path/to/CARLA_0.9.13  
-SDL_VIDEODRIVER=dummy ./CarlaUE4.sh -RenderOffScreen -nosound -carla-port=2000  
+```bash
+cd /path/to/CARLA_0.9.13
+SDL_VIDEODRIVER=dummy ./CarlaUE4.sh -RenderOffScreen -nosound -carla-port=2000
+```
 
 ### Alternative Headless Configuration
 
-DISPLAY= ./CarlaUE4.sh -opengl -carla-port=2000  
+```bash
+DISPLAY= ./CarlaUE4.sh -opengl -carla-port=2000
+```
 
 ---
 
@@ -109,15 +120,21 @@ Ensure the CARLA server is running before launching training.
 
 ### MM-DQN (Baseline)
 
-python MM_DQN.py --render False --enable-pygame False --port 2000  
+```bash
+python MM_DQN.py --render False --enable-pygame False --port 2000
+```
 
 ### SSA-DQN
 
-python SSA_DQN.py --render False --enable-pygame False --port 2000  
+```bash
+python SSA_DQN.py --render False --enable-pygame False --port 2000
+```
 
 ### TTSA-DQN (Proposed)
 
-python TTSA_DQN.py --render False --enable-pygame False --port 2000  
+```bash
+python TTSA_DQN.py --render False --enable-pygame False --port 2000
+```
 
 ---
 
@@ -125,11 +142,15 @@ python TTSA_DQN.py --render False --enable-pygame False --port 2000
 
 Training logs are stored in:
 
+```
 runs/
+```
 
 Launch TensorBoard:
 
-tensorboard --logdir runs  
+```bash
+tensorboard --logdir runs
+```
 
 ---
 
@@ -137,20 +158,26 @@ tensorboard --logdir runs
 
 Checkpoints are stored in:
 
-models_DQN/  
-models_SSA_DQN/  
-models_TTSA_DQN/  
+```
+models_DQN/
+models_SSA_DQN/
+models_TTSA_DQN/
+```
 
 Example:
 
-<exp_name>__seed0__5000.pth  
-<exp_name>__seed0__10000.pth  
+```
+<exp_name>__seed0__5000.pth
+<exp_name>__seed0__10000.pth
+```
 
 ---
 
 ## Quick Environment Test
 
-python test.py  
+```bash
+python test.py
+```
 
 This verifies:
 
@@ -162,20 +189,26 @@ This verifies:
 
 ## Common Issues
 
-1. gym_carla not found:
+### gym_carla not found
 
-pip install -e gym-carla  
+```bash
+pip install -e gym-carla
+```
 
-2. CARLA import error:
+### CARLA import error
 
-echo $PYTHONPATH  
+```bash
+echo $PYTHONPATH
+```
 
-3. Address already in use:
+### Address already in use
 
-./CarlaUE4.sh -carla-port=2001  
-python MM_DQN.py --port 2001  
+```bash
+./CarlaUE4.sh -carla-port=2001
+python MM_DQN.py --port 2001
+```
 
-4. Slow training performance:
+### Slow Training Performance
 
 Reduce:
 
@@ -185,14 +218,16 @@ Reduce:
 
 Keep:
 
---render False --enable-pygame False  
+```bash
+--render False --enable-pygame False
+```
 
 ---
 
 ## Recommended Workflow
 
-1. Run MM-DQN to validate environment configuration  
-2. Run SSA-DQN  
-3. Run TTSA-DQN  
+1. Run **MM-DQN** to validate environment configuration  
+2. Run **SSA-DQN**  
+3. Run **TTSA-DQN**
 
-This progression isolates environment-level issues from model-level behavior.
+This progression isolates environment-level issues from model-level behavior and simplifies debugging.
