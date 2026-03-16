@@ -126,7 +126,7 @@ Ensure the CARLA server is running before launching training.
 python UM_DQN.py --render False --enable-pygame False --port 2000
 ```
 
-### MM-DQN (Baseline)
+### MM-DQN (Proposed)
 
 ```bash
 python MM_DQN.py --render False --enable-pygame False --port 2000
