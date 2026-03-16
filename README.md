@@ -10,9 +10,10 @@ This repository provides implementations of **multi-modal Deep Q-learning pipeli
 - Bird’s-Eye-View (BEV) images  
 - Radar / LiDAR representations  
 
-The repository includes three comparable frameworks:
+The repository includes four comparable frameworks:
 
-1. **MM-DQN** — Standard multi-modal Deep Q-Network baseline  
+2. **MM-DQN** — uni-modal Deep Q-Network baseline using 4 sucessive BEV images
+1. **MM-DQN (ours)** — multi-modal Deep Q-Network   
 2. **SSA-DQN** — Spiking multi-modal DQN with Spiking Self-Attention  
 3. **TTSA-DQN (Ours)** — Spiking multi-modal DQN with Ternary Temporal Spiking Attention  
 
@@ -24,7 +25,8 @@ All methods are evaluated on **CARLA Town03** under identical observation and ac
 
 ```text
 .
-├── MM_DQN.py              # Multi-Modal DQN baseline
+├── UM_DQN.py              # Uni-Modal DQN baseline
+├── MM_DQN.py              # Multi-Modal DQN (proposed)
 ├── SSA_DQN.py             # SSA-based spiking DQN
 ├── TTSA_DQN.py            # TTSA-based spiking DQN (proposed)
 ├── test.py                # Environment validation script
@@ -117,6 +119,12 @@ DISPLAY= ./CarlaUE4.sh -opengl -carla-port=2000
 ## Usage
 
 Ensure the CARLA server is running before launching training.
+
+### UM-DQN (Baseline)
+
+```bash
+python UM_DQN.py --render False --enable-pygame False --port 2000
+```
 
 ### MM-DQN (Baseline)
 
