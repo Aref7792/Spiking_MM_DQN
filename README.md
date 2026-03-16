@@ -74,4 +74,54 @@ The CARLA experiments use a multi-modal DQN architecture with bird’s-eye-view 
 | Logging interval | — | Every 1000 steps |
 
 
+## Highway-Env Model Architecture and Training Hyperparameters
+
+The Highway-Env experiments use a multi-modal DQN architecture with bird’s-eye-view (BEV) and LiDAR observations, cross-attention fusion, and a discrete-action control setup in the Highway-Env simulator.
+
+---
+
+### Model Architecture
+
+| Parameter | Setting | Value / Description |
+|-----------|---------|---------------------|
+| Input modalities | — | Bird’s-eye view (BEV) and LiDAR |
+| Fusion type | — | Cross-attention fusion |
+| Output embedding size | d_model | 32 |
+| Number of attention heads | Nh | 8 |
+| Fusion feed-forward dimension | d_ff | 128 |
+| Decision head hidden size | d_ff | 512 |
+| Q-network output | — | 5 discrete actions (Highway-Env) |
+| BEV encoder channels | — | 8 → 16 → 16 |
+| LiDAR encoder channels | — | 8 → 16 → 16 |
+| BEV convolution kernels | — | 5×5, 3×3, 3×3 |
+| LiDAR convolution kernels | — | 7×7, 5×5, 3×3 |
+| BEV convolution strides | — | 3, 2, 1 |
+| LiDAR convolution strides | — | 3, 3, 1 |
+| Encoder activation | — | ReLU / Binary LIF |
+| Attention block normalization | — | LayerNorm |
+| Transformer MLP activation | — | ReLU |
+| Positional encoding | — | Learnable positional embedding |
+| Output head | — | Linear Q-head with ReLU hidden layer |
+
+---
+
+### Reinforcement Learning Parameters
+
+| Parameter | Setting | Value / Description |
+|-----------|---------|---------------------|
+| Algorithm | — | Deep Q-Network (DQN) |
+| Total training steps | — | 1 × 10⁵ per scenario |
+| Learning rate | — | 1 × 10⁻⁴ |
+| Discount factor | gamma | 0.99 |
+| Batch size | — | 64 |
+| Replay buffer size | — | 5 × 10⁴ transitions |
+| Target network update frequency | — | Every 100 steps |
+| Loss function | — | DQN temporal-difference loss |
+| Optimizer | — | Adam |
+| Exploration strategy | — | Epsilon-greedy |
+| Epsilon schedule | — | Linear decay from 1.0 to 0.1 over 7 × 10⁴ steps |
+| Reward weights | — | Default Highway-Env reward (speed, collision, lane-change) |
+| Evaluation episodes | — | 20–50 |
+
+
 
