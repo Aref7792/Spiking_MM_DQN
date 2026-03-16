@@ -21,44 +21,33 @@ To support multi-modal perception, we modify the CARLA Gym environment such that
 
 The repository is structured as a minimal and reproducible implementation. The main functionality is provided through **two sub-sections**, which include implementation for the Highway Env and CARLA Gym. 
 
-## Model Architecture and Training Hyperparameters
+## CARLA Model Architecture and Training Hyperparameters
 
-The multi-modal architecture and its training configuration are summarized below.
-
----
-
-### Feature Extraction (per Modality)
-
-| Parameter | Setting | Value / Description |
-|-----------|---------|---------------------|
-| Number of convolutional layers | — | 3 × Conv2D per modality |
-| **BEV kernel sizes** | — | [5×5, 3×3, 3×3] |
-| **LiDAR kernel sizes** | — | [7×7, 5×5, 3×3] |
-| Stride | — | [3, 2, 1] / [3, 3, 1] |
-| Channels per layer | — | 8 → 16 → 16 |
-| Activation function | — | ReLU / Binary LIF |
-| Output embedding dimension | d_model | 32 |
+The CARLA experiments use a multi-modal DQN architecture with bird’s-eye-view (BEV) and radar observations, cross-attention fusion, and a discrete-action control setup in the gym-based CARLA simulator.
 
 ---
 
-### Cross-Attention Fusion Module
+### Model Architecture
 
 | Parameter | Setting | Value / Description |
 |-----------|---------|---------------------|
-| Number of attention heads | Nh | 8 |
-| Feed-forward dimension | d_ff | 128 |
-| Positional encoding | — | Learnable positional encoding |
-| Normalization | — | LayerNorm |
-
----
-
-### Decision Head
-
-| Parameter | Setting | Value / Description |
-|-----------|---------|---------------------|
-| Activation function | — | ReLU / Binary LIF |
-| Feed-forward dimension | d_ff | 512 |
-| Output dimension | — | 5 (discrete actions in Highway-Env) |
+| Input modalities | — | Bird’s-eye view (BEV) and radar |
+| Fusion type | — | Cross-attention fusion |
+| Latent embedding size | latent_size | 64 |
+| Number of attention heads | num_heads | 8 |
+| Final hidden layer size | final_layer | 512 |
+| Q-network output | — | Discrete action values |
+| BEV encoder channels | — | 16 → 32 → 64 |
+| Radar encoder channels | — | 16 → 32 → 64 |
+| BEV convolution kernels | — | 5×5, 3×3, 3×3 |
+| Radar convolution kernels | — | 5×5, 3×3, 3×3 |
+| BEV convolution strides | — | 2, 2, 1 |
+| Radar convolution strides | — | 2, 2, 1 |
+| Encoder activation | — | ReLU |
+| Attention block normalization | — | LayerNorm |
+| Transformer MLP activation | — | GELU |
+| Positional encoding | — | Learnable positional embedding |
+| Output head | — | Linear Q-head with ReLU hidden layer |
 
 ---
 
@@ -67,28 +56,22 @@ The multi-modal architecture and its training configuration are summarized below
 | Parameter | Setting | Value / Description |
 |-----------|---------|---------------------|
 | Algorithm | — | Deep Q-Network (DQN) |
+| Total training steps | — | 1 × 10⁵ |
+| Learning rate | — | 1 × 10⁻⁴ |
 | Discount factor | gamma | 0.99 |
-| Replay buffer size | — | 5 × 10⁴ transitions |
-| Batch size | — | 64 |
-| Target network update frequency | — | Every 100 steps |
-| Learning rate | eta₀ | 1 × 10⁻⁴ |
+| Batch size | — | 32 |
+| Replay buffer size | — | 2 × 10⁵ transitions |
+| Replay warmup / learning starts | — | 10000 steps |
+| Training frequency | — | Every 4 environment steps |
+| Target network update frequency | — | Every 200 steps |
+| Loss function | — | Smooth L1 loss (Huber loss) |
 | Optimizer | — | Adam |
-| Exploration schedule | epsilon-greedy | Linear decay from 1.0 to 0.1 over 7 × 10⁴ steps |
-| Reward weights | — | Default Highway-Env (speed, collision, lane-change) |
-| Training steps per scenario | — | 1 × 10⁵ |
-| Evaluation episodes | — | 20–50 |
+| Exploration strategy | — | Epsilon-greedy |
+| Epsilon start | — | 1.0 |
+| Epsilon end | — | 0.1 |
+| Epsilon decay duration | — | 1 × 10⁵ steps |
+| Model save interval | — | Every 5000 steps |
+| Logging interval | — | Every 1000 steps |
 
----
 
-### Spiking-Specific Parameters
 
-| Parameter | Setting | Value / Description |
-|-----------|---------|---------------------|
-| Membrane time constant (tau_m) | — | 2 |
-| Spike threshold (positive) (Vth⁺) | — | 1.0 |
-| Spike threshold (negative) (Vth⁻) | — | −4 |
-| Reset mechanism (Vreset) | — | Subtractive reset (V ← V − Vth±) |
-| Output spikes | — | Binary {0, +1}, Ternary {−1, 0, +1} |
-| Surrogate gradient type | — | Arctangent |
-| Simulation time window (Ts) | — | 5 |
-| Neuron model | — | Binary LIF and ternary LIF (asymmetric thresholds) |
