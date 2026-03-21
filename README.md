@@ -1,87 +1,130 @@
-# 🚗 A Standardized Multi-Modal Reinforcement Learning Benchmark for Autonomous Driving with Explicit Dynamic Sensing
+## Introduction
 
-An OpenAI Gym-compatible CARLA environment for **multi-modal reinforcement learning (RL)** in urban autonomous driving, with a focus on **explicit dynamic sensing via radar**.
+This repository contains the official implementation of the paper:
+
+**“New Spiking Architecture for Multi-Modal Decision-Making in Autonomous Vehicles”**  
+*(submitted to IROS 2026)*
+
+This work introduces a spiking-based multi-modal deep reinforcement learning framework for autonomous driving decision-making. The proposed architecture integrates heterogeneous sensory modalities and leverages neuromorphic computation to efficiently capture both spatial and temporal dynamics in complex traffic environments.
+
+For experimental evaluation, we use two simulation platforms:
+
+- **Highway Environment** (Farama Foundation)  
+  For details about the reward function, observation space, and environment configuration, please refer to:  
+  https://highway-env.farama.org/index.html
+
+- **Gym-based CARLA Simulator**  
+  We build on the CARLA Gym interface available at:  
+  https://github.com/cjy1992/gym-carla/tree/master
+
+To support multi-modal perception, we modify the CARLA Gym environment such that the observation space includes both **LiDAR** and **radar** information. In particular, relative velocity measurements from **four radar sensors** surrounding the ego vehicle are incorporated and encoded into pixel-space representations, enabling the model to capture dynamic scene information alongside spatial features.
+
+The repository is structured as a minimal and reproducible implementation. The main functionality is provided through **two core code files**, which include:
+
+- Model architecture and training pipeline  
+- Hyperparameter configuration  
+- Environment setup and preprocessing  
+- Logging, evaluation, and experiment utilities  
+
+## CARLA Model Architecture and Training Hyperparameters
+
+The CARLA experiments use a multi-modal DQN architecture with bird’s-eye-view (BEV) and radar observations, cross-attention fusion, and a discrete-action control setup in the gym-based CARLA simulator.
+
+
+| Parameter | Setting | Value / Description |
+|-----------|---------|---------------------|
+| Input modalities | — | Bird’s-eye view (BEV) and radar |
+| Fusion type | — | Cross-attention fusion |
+| Latent embedding size | latent_size | 64 |
+| Number of attention heads | num_heads | 8 |
+| Final hidden layer size | final_layer | 512 |
+| Q-network output | — | Discrete action values |
+| BEV encoder channels | — | 16 → 32 → 64 |
+| Radar encoder channels | — | 16 → 32 → 64 |
+| BEV convolution kernels | — | 5×5, 3×3, 3×3 |
+| Radar convolution kernels | — | 5×5, 3×3, 3×3 |
+| BEV convolution strides | — | 2, 2, 1 |
+| Radar convolution strides | — | 2, 2, 1 |
+| Encoder activation | — | ReLU |
+| Attention block normalization | — | LayerNorm |
+| Transformer MLP activation | — | GELU |
+| Positional encoding | — | Learnable positional embedding |
+| Output head | — | Linear Q-head with ReLU hidden layer |
 
 ---
 
-## 📌 Overview
+### Reinforcement Learning Parameters
 
-This repository provides the official implementation of:
-
-> **A Standardized Multi-Modal Reinforcement Learning Benchmark for Autonomous Driving with Explicit Dynamic Sensing**  
-> *(Submitted to CVPR URVIS Workshop)*
-
-We introduce a **reproducible, Gym-compatible benchmark** built on CARLA (v0.9.13), designed for systematic evaluation of multi-modal RL algorithms under controlled conditions.
-
-### Key Features
-
-- **Multi-modal observation space**
-  - Radar (dynamic sensing)
-  - LiDAR (geometric structure)
-  - Joint Radar/LiDAR fusion
-  - Bird’s-Eye View (BEV) semantic rendering
-  - Ego-state features
-
-- **Explicit dynamic modeling**
-  - Radar directly encodes motion (velocity-aware perception)
-  - Reduces reliance on implicit temporal stacking
-
-- **Temporal representation**
-  - Frame stacking supported across all modalities
-
-- **Benchmarking capability**
-  - Enables controlled comparison between:
-    - Static perception (BEV / LiDAR)
-    - Dynamic sensing (radar-enhanced observations)
-
-This framework supports **robust, reproducible evaluation of perception–decision pipelines** in RL-based autonomous driving.
+| Parameter | Setting | Value / Description |
+|-----------|---------|---------------------|
+| Algorithm | — | Deep Q-Network (DQN) |
+| Total training steps | — | 1 × 10⁵ |
+| Learning rate | — | 1 × 10⁻⁴ |
+| Discount factor | gamma | 0.99 |
+| Batch size | — | 32 |
+| Replay buffer size | — | 2 × 10⁵ transitions |
+| Replay warmup / learning starts | — | 10000 steps |
+| Training frequency | — | Every 4 environment steps |
+| Target network update frequency | — | Every 200 steps |
+| Loss function | — | Smooth L1 loss (Huber loss) |
+| Optimizer | — | Adam |
+| Exploration strategy | — | Epsilon-greedy |
+| Epsilon start | — | 1.0 |
+| Epsilon end | — | 0.1 |
+| Epsilon decay duration | — | 1 × 10⁵ steps |
+| Model save interval | — | Every 5000 steps |
+| Logging interval | — | Every 1000 steps |
 
 ---
 
-## ⚙️ Requirements
 
-- Ubuntu 20.04 / 22.04  
-- Python 3.8 (Conda recommended)  
-- CARLA 0.9.13  
-- NVIDIA GPU (recommended)
+## Highway-Env Model Architecture and Training Hyperparameters
+
+The Highway-Env experiments use a multi-modal DQN architecture with bird’s-eye-view (BEV) and LiDAR observations, cross-attention fusion, and a discrete-action control setup in the Highway-Env simulator.
 
 ---
 
-## 🚀 Installation
+### Model Architecture
+
+| Parameter | Setting | Value / Description |
+|-----------|---------|---------------------|
+| Input modalities | — | Bird’s-eye view (BEV) and LiDAR |
+| Fusion type | — | Cross-attention fusion |
+| Output embedding size | d_model | 32 |
+| Number of attention heads | Nh | 8 |
+| Fusion feed-forward dimension | d_ff | 128 |
+| Decision head hidden size | d_ff | 512 |
+| Q-network output | — | 5 discrete actions (Highway-Env) |
+| BEV encoder channels | — | 8 → 16 → 16 |
+| LiDAR encoder channels | — | 8 → 16 → 16 |
+| BEV convolution kernels | — | 5×5, 3×3, 3×3 |
+| LiDAR convolution kernels | — | 7×7, 5×5, 3×3 |
+| BEV convolution strides | — | 3, 2, 1 |
+| LiDAR convolution strides | — | 3, 3, 1 |
+| Encoder activation | — | ReLU / Binary LIF |
+| Attention block normalization | — | LayerNorm |
+| Transformer MLP activation | — | ReLU |
+| Positional encoding | — | Learnable positional embedding |
+| Output head | — | Linear Q-head with ReLU hidden layer |
+
+---
+
+### Reinforcement Learning Parameters
+
+| Parameter | Setting | Value / Description |
+|-----------|---------|---------------------|
+| Algorithm | — | Deep Q-Network (DQN) |
+| Total training steps | — | 1 × 10⁵ per scenario |
+| Learning rate | — | 1 × 10⁻⁴ |
+| Discount factor | gamma | 0.99 |
+| Batch size | — | 64 |
+| Replay buffer size | — | 5 × 10⁴ transitions |
+| Target network update frequency | — | Every 100 steps |
+| Loss function | — | DQN temporal-difference loss |
+| Optimizer | — | Adam |
+| Exploration strategy | — | Epsilon-greedy |
+| Epsilon schedule | — | Linear decay from 1.0 to 0.1 over 7 × 10⁴ steps |
+| Reward weights | — | Default Highway-Env reward (speed, collision, lane-change) |
+| Evaluation episodes | — | 20–50 |
 
 
-# Create environment
-```bash
-conda create -n carla913 python=3.8 -y
-conda activate carla913
-```
-
-# Ensure compatibility with CARLA dependencies
-```
-pip install -U "pip<24.1"
-pip install -U "setuptools<66" "wheel<0.41"
-```
-
-# Download CARLA
-mkdir -p ~/carla
-cd ~/carla
-wget https://github.com/carla-simulator/carla/releases/download/0.9.13/CARLA_0.9.13.tar.gz
-tar -xvzf CARLA_0.9.13.tar.gz
-
-# Install system dependencies
-sudo apt update
-sudo apt install -y \
-    libtiff5 libpng16-16 libjpeg-dev libglu1-mesa \
-    libglib2.0-0 libsm6 libxext6 libxrender1 libgomp1
-
-# Configure CARLA Python API
-export CARLA_ROOT=~/carla/CARLA_0.9.13
-export PYTHONPATH=$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.13-py3.8-linux-x86_64.egg:$PYTHONPATH
-export PYTHONPATH=$CARLA_ROOT/PythonAPI/carla:$PYTHONPATH
-export PYTHONPATH=$CARLA_ROOT/PythonAPI/carla/agents:$PYTHONPATH
-
-# Install gym-carla
-git clone https://github.com/cjy1992/gym-carla.git
-cd gym-carla
-pip install -r requirements.txt
-pip install -e .
