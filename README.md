@@ -49,14 +49,18 @@ This framework supports **robust, reproducible evaluation of perception–decisi
 
 ## 🚀 Installation
 
-```bash
+
 # Create environment
+```bash
 conda create -n carla913 python=3.8 -y
 conda activate carla913
+```
 
 # Ensure compatibility with CARLA dependencies
+```
 pip install -U "pip<24.1"
 pip install -U "setuptools<66" "wheel<0.41"
+```
 
 # Download CARLA
 mkdir -p ~/carla
